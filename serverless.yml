@@ -1,0 +1,12 @@
+service: reddit-joke-reader-skill
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+
+functions:
+  reddit-joke-reader:
+    handler: index.handler
+    name: reddit-joke-reader
+    events:
+      - alexaSkill
