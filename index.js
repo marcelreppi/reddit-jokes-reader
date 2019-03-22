@@ -1,19 +1,13 @@
 const Alexa = require("alexa-sdk");
-const axios = require("axios")
+
+const { getRedditJoke } =  require("./lib.js")
 
 const handlers = {
 	"LaunchRequest": function () {
 		this.emit("GetJokeIntent");
 	},
 	"GetJokeIntent": async function () {
-		const response = await axios.get("https://www.reddit.com/r/Jokes/top.json?limit=20")
-		const posts = response.data.data.children
-
-		const i = Math.floor(Math.random() * posts.length);
-		const randomJoke = posts[i]
-
-		const { title, selftext:content } = randomJoke.data
-
+		const { title, content } = await getRedditJoke()
 		this.emit(":tell", `${title} <break time="1s"/> ${content}`);
 	},
 	"AMAZON.HelpIntent": function () {
